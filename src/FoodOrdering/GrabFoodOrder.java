@@ -28,12 +28,13 @@ public class GrabFoodOrder extends JFrame{
         btnOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                double total = computedCost(total(), discount());
+                JOptionPane.showMessageDialog(null, "The total price is Php" +total);
             }
         });
     }
 
-    private double cost (){
+    private double total (){
         double total = 0;
         if(cPizza.isSelected()){
             total += 100;
