@@ -4,6 +4,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+class NoItemsException extends Exception{
+    public NoItemsException(String s){
+        super(s);
+    }
+}
+
 public class GrabFoodOrder extends JFrame{
     private JPanel panel1;
     private JCheckBox cPizza;
@@ -28,10 +34,26 @@ public class GrabFoodOrder extends JFrame{
         btnOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                double total = computedCost(total(), discount());
-                JOptionPane.showMessageDialog(null, "The total price is Php" +total);
+
+                try {
+                    if(isEmpty()){
+                        throw (new NoItemsException("Must pick an Item!"));
+                    }
+                    double total = computedCost(total(), discount());
+                    JOptionPane.showMessageDialog(null, "The total price is Php" +total);
+                } catch (NoItemsException a){
+                    JOptionPane.showMessageDialog(null, a.getMessage());
+                }
             }
         });
+    }
+
+    private boolean isEmpty(){
+        if(!cPizza.isSelected() && !cBurger.isSelected() && !cFries.isSelected() && !cSoftDrinks.isSelected() && !cTea.isSelected()
+        && !cSundae.isSelected()){
+            return true;
+        }
+        return false;
     }
 
     private double total (){
